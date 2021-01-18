@@ -1,28 +1,50 @@
-import React from 'react';
-import {TextInput, View, StyleSheet, Button} from "react-native";
+import React, {useState} from 'react';
+import {Button, View, TextInput, StyleSheet, Image} from "react-native";
+import data from '../helpers/filmDatas';
 
-export default class Search extends React.Component {
-    render() {
-        return (
-            <View style={styles.main_container}>
-                <TextInput style={styles.textinput} placeholder='Titre du film'/>
-                <Button title='Rechercher' onPress={() => {}}/>
-            </View>
-        )
+export const Search = (props) => {
+    const [searchText, setSearchText] = useState('');
+
+    const onChangeText = (text) => {
+        setSearchText(text);
+        props.handleSearch(searchText);
     }
+
+    return (
+        <View style={styles.main_container}>
+            <View style={styles.input_container}>
+                <Image source={require('../../assets/images/loupe.jpg')} style={styles.picto}/>
+                <TextInput
+                    style={styles.textinput}
+                    placeholder='Titre du film'
+                    onChangeText={onChangeText}/>
+            </View>
+            <Button title='Rechercher' onPress={() => props.handleClickButton(data)}/>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
     main_container: {
-        flex: 1,
-        marginTop: 30
+        padding: 30,
+        backgroundColor: '#fd4556',
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15
+    },
+    input_container: {
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 15,
+        paddingLeft: 10,
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    picto: {
+        width: 25,
+        height: 25
     },
     textinput: {
-        marginLeft: 5,
-        marginRight: 5,
         height: 50,
-        borderColor: '#000000',
-        borderWidth: 1,
-        paddingLeft: 5
+        paddingLeft: 10
     }
 })
