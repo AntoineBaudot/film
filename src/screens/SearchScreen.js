@@ -11,6 +11,7 @@ export default class SearchScreen extends React.Component {
     }
 
     handleSearchText = (text) => {
+        console.warn('Debug : ', text)
         this.setState({searchText: text})
     }
 
@@ -20,14 +21,16 @@ export default class SearchScreen extends React.Component {
 
     _renderResult = () => {
         if (this.state.filmsState.length > 0) {
-            return <FlatList
-                data={this.state.filmsState}
-                renderItem={({item}) => <FilmItem film={item} />}
-                keyExtractor={item => item.id.toString()}
-            />
+            return <View>
+                <FlatList
+                    data={this.state.filmsState}
+                    renderItem={({item}) => <FilmItem film={item} />}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </View>
         }
 
-        return <Text style={styles.text_no_result}>Aucun film n'a été chargé.</Text>
+        return <View style={styles.no_found_container}><Text style={styles.text_no_result}>Aucun film n'a été chargé.</Text></View>
     }
 
     render() {
@@ -36,9 +39,7 @@ export default class SearchScreen extends React.Component {
             <SafeAreaView style={styles.main_container}>
                 <Search handleSearch={this.handleSearchText} handleClickButton={this._loadFilms}/>
                 {this.state.searchText !== '' ? <ResultSearch textSearched={searchText}/> : null}
-                <View style={styles.result_container}>
                     {this._renderResult()}
-                </View>
 
             </SafeAreaView>
         )
@@ -57,5 +58,10 @@ const styles = StyleSheet.create({
     text_no_result: {
         fontSize: 20,
         fontWeight: 'bold',
+    },
+    no_found_container: {
+        flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
     }
 })

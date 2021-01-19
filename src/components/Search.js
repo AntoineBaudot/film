@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, View, TextInput, StyleSheet, Image} from "react-native";
 import data from '../helpers/filmDatas';
 
 export const Search = (props) => {
-    const [searchText, setSearchText] = useState('');
-
     const onChangeText = (text) => {
-        setSearchText(text);
-        props.handleSearch(searchText);
+        props.handleSearch(text);
     }
 
     return (
@@ -17,7 +14,8 @@ export const Search = (props) => {
                 <TextInput
                     style={styles.textinput}
                     placeholder='Titre du film'
-                    onChangeText={onChangeText}/>
+                    onChangeText={onChangeText}
+                />
             </View>
             <Button title='Rechercher' onPress={() => props.handleClickButton(data)}/>
         </View>
