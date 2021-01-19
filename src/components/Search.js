@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, View, TextInput, StyleSheet, Image} from "react-native";
-import data from '../helpers/filmDatas';
 
 export const Search = (props) => {
+    const [isDisabled, setIsDisabled] = useState(true);
     const onChangeText = (text) => {
+        setIsDisabled(text === '')
         props.handleSearch(text);
     }
 
@@ -17,7 +18,7 @@ export const Search = (props) => {
                     onChangeText={onChangeText}
                 />
             </View>
-            <Button title='Rechercher' onPress={() => props.handleClickButton(data)}/>
+            <Button disabled={isDisabled} title='Rechercher' onPress={() => props.handleClickButton()}/>
         </View>
     )
 }
