@@ -8,10 +8,9 @@ const Stack = createStackNavigator()
 
 export const MainNavigator = () => {
     return (
-
-            <Stack.Navigator>
-                <Stack.Screen name="Accueil" component={SearchScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="Detail" component={DetailScreen}/>
-            </Stack.Navigator>
+        <Stack.Navigator>
+            <Stack.Screen name="Accueil" component={SearchScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="Detail" component={DetailScreen}/>
+        </Stack.Navigator>
     )
 }
