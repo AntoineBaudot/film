@@ -6,7 +6,7 @@ import {DetailScreen} from "../screens/DetailScreen";
 
 const Stack = createStackNavigator()
 
-export const MainNavigator = () => {
+export const SearchAndDetailNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Accueil" component={SearchScreen} options={{headerShown: false}}/>

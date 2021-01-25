@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 export const FilmItem = (props) => {
-    const {film, goToDetail} = props;
+    const {film, goToDetail, screenName} = props;
     return(
         <TouchableOpacity style={styles.main_container} onPress={goToDetail}>
             <View style={styles.main_information_container}>
@@ -15,8 +15,11 @@ export const FilmItem = (props) => {
                         <Text>{film.release_date}</Text>
                     </View>
                 </View>
-                {film.vote_average > 7 && <View style={{justifyContent: 'center'}}>
+                {screenName !== 'TopRated' && film.vote_average > 7 && <View style={{justifyContent: 'center', marginRight: 10}}>
                     <Image source={require('../../assets/images/star.png')} style={{width: 30, height: 30}} />
+                </View>}
+                {screenName === 'TopRated' && <View style={{justifyContent: 'center', marginRight: 10}}>
+                    <Text style={{fontSize: 18, fontWeight: 'bold'}}>{film.vote_average}</Text>
                 </View>}
 
             </View>
