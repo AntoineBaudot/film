@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 export const FilmItem = (props) => {
-    const {film} = props;
+    const {film, goToDetail} = props;
     return(
-        <View style={styles.main_container}>
+        <TouchableOpacity style={styles.main_container} onPress={goToDetail}>
             <View style={styles.main_information_container}>
                 <Image source={{uri: `https://image.tmdb.org/t/p/original${film.poster_path}`}} style={styles.image} />
                 <View style={styles.content_container}>
@@ -20,7 +20,7 @@ export const FilmItem = (props) => {
                 </View>}
 
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

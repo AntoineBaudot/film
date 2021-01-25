@@ -48,7 +48,7 @@ export default class SearchScreen extends React.Component {
             return <View>
                 <FlatList
                     data={this.state.filmsState}
-                    renderItem={({item}) => <FilmItem film={item} />}
+                    renderItem={({item}) => <FilmItem film={item} goToDetail={() => this.props.navigation.navigate('Detail', {title: item.title, id: item.id})} />}
                     keyExtractor={item => item.id.toString()}
                     onEndReachedThreshold={0.5}
                     onEndReached={() => {
