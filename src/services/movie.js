@@ -34,3 +34,14 @@ export function getTopRated() {
         )
     ).then(result => result.json())
 }
+
+export function getLatest() {
+    return fetch(
+        getApiUrl(
+            '/movie/latest',
+            {
+                language: 'fr-FR',
+            }
+        )
+    ).then(result => result.json())
+}

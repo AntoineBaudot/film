@@ -1,6 +1,6 @@
 import React, {useLayoutEffect, useState, useEffect} from 'react';
 import {Text, View, Image, StyleSheet, ScrollView, Button, Linking} from "react-native";
-import {getMovie} from "../services/movie";
+import {getLatest, getMovie} from "../services/movie";
 
 export const DetailScreen = (props) => {
     const {route, navigation} = props;
@@ -8,13 +8,18 @@ export const DetailScreen = (props) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: route.params.title
+            title: route && route.params && route.params.title ? route.params.title : 'Dernier film sortit'
         })
     })
     useEffect(() => {
-        getMovie(route.params.id)
-            .then(setMovie)
-    }, [route.params.id])
+        if (route && route.params && route.params.id) {
+            getMovie(route.params.id)
+                .then(setMovie)
+        } else {
+            getLatest()
+                .then(setMovie)
+        }
+    }, [])
 
     function handlePress() {
         if (movie) {
@@ -47,16 +52,16 @@ export const DetailScreen = (props) => {
                         />
                         <View style={styles.headerInfo}>
                             <Image source={require('../../assets/images/button_play.png')} style={styles.imagePlay} />
-                            {movie.title && <Text style={styles.title}>{movie.title}</Text>}
+                            {movie.title !== '' && <Text style={styles.title}>{movie.title}</Text>}
                             {movie.production_companies.length > 0 && <Text style={styles.director}>{movie.production_companies[0].name}</Text>}
-                            {movie.vote_average && <Text style={[styles.averageNote, movie.vote_average > 5 ? styles.good_film : styles.bad_film]}>{movie.vote_average}</Text>}
+                            {movie.vote_average !== '' && <Text style={[styles.averageNote, movie.vote_average > 5 ? styles.good_film : styles.bad_film]}>{movie.vote_average}</Text>}
                         </View>
                     </View>
                     <Text style={styles.overviewTitle}>Synopsis</Text>
-                    {movie.overview && <Text style={styles.overview}>{movie.overview}</Text>}
+                    {movie.overview !== '' && <Text style={styles.overview}>{movie.overview}</Text>}
                 </View>
             </ScrollView>
-            {movie.homepage && (
+            {movie.homepage !== '' && (
                 <View style={styles.footer}>
                     <Button color="#fc6e58" onPress={handlePress} title="Visit website" />
                 </View>
