@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, FlatList, StyleSheet, SafeAreaView, ActivityIndicator} from "react-native";
 import {getTopRated} from "../services/movie";
 import {FilmItem} from "../components/FilmItem";
+import Fade from "../animations/Fade";
 
 export const TopRatedScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -18,10 +19,11 @@ export const TopRatedScreen = (props) => {
 
     return (
         <SafeAreaView style={styles.main_container}>
-            <View>
+            <Fade>
                 <FlatList
                     data={films}
-                    renderItem={({item}) => <FilmItem
+                    renderItem={({item, index}) => <FilmItem
+                        index={index}
                         film={item}
                         goToDetail={() => props.navigation.navigate('Detail', {title: item.title, id: item.id})}
                         screenName={props.route.name}
@@ -34,7 +36,7 @@ export const TopRatedScreen = (props) => {
                     </View>
                     : null
                 }
-            </View>
+            </Fade>
         </SafeAreaView>
     )
 }

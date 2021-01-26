@@ -1,17 +1,26 @@
 import React, {useLayoutEffect, useState, useEffect} from 'react';
-import {Text, View, Image, StyleSheet, ScrollView, Button, Linking} from "react-native";
+import {Text, View, Image, StyleSheet, ScrollView, Button, Linking, Animated} from "react-native";
 import {getLatest, getMovie} from "../services/movie";
+import {Dimensions} from "react-native";
 
 export const DetailScreen = (props) => {
     const {route, navigation} = props;
     const [movie, setMovie] = useState(null);
-
+    const [positionLeft, setPositionLeft] = useState(new Animated.Value(Dimensions.get('window').width));
     useLayoutEffect(() => {
         navigation.setOptions({
             title: route && route.params && route.params.title ? route.params.title : 'Dernier film sortit'
         })
     })
     useEffect(() => {
+        Animated.spring(
+            positionLeft,
+            {
+                toValue: 0,
+                speed: 50,
+                bounciness: 50
+            }
+        ).start()
         if (route && route.params && route.params.id) {
             getMovie(route.params.id)
                 .then(setMovie)
@@ -52,7 +61,7 @@ export const DetailScreen = (props) => {
                         />
                         <View style={styles.headerInfo}>
                             <Image source={require('../../assets/images/button_play.png')} style={styles.imagePlay} />
-                            {movie.title !== '' && <Text style={styles.title}>{movie.title}</Text>}
+                            {movie.title !== '' && <Animated.Text style={[styles.title, {left: positionLeft}]}>{movie.title}</Animated.Text>}
                             {movie.production_companies.length > 0 && <Text style={styles.director}>{movie.production_companies[0].name}</Text>}
                             {movie.vote_average !== '' && <Text style={[styles.averageNote, movie.vote_average > 5 ? styles.good_film : styles.bad_film]}>{movie.vote_average}</Text>}
                         </View>

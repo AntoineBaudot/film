@@ -4,6 +4,7 @@ import {Search} from "../components/Search";
 import {ResultSearch} from "../components/ResultSearch";
 import {FilmItem} from "../components/FilmItem";
 import {searchMovie} from "../services/movie";
+import Fade from "../animations/Fade";
 
 export default class SearchScreen extends React.Component {
     state = {
@@ -11,6 +12,7 @@ export default class SearchScreen extends React.Component {
         filmsState: [],
         isLoading: false,
     }
+
     page;
     totalPages;
 
@@ -48,7 +50,7 @@ export default class SearchScreen extends React.Component {
             return <View>
                 <FlatList
                     data={this.state.filmsState}
-                    renderItem={({item}) => <FilmItem film={item} goToDetail={() => this.props.navigation.navigate('Detail', {title: item.title, id: item.id})} />}
+                    renderItem={({item, index}) => <FilmItem film={item} index={index} goToDetail={() => this.props.navigation.navigate('Detail', {title: item.title, id: item.id})} />}
                     keyExtractor={item => item.id.toString()}
                     onEndReachedThreshold={0.5}
                     onEndReached={() => {
@@ -67,16 +69,17 @@ export default class SearchScreen extends React.Component {
         const {searchText} = this.state;
         return (
             <SafeAreaView style={styles.main_container}>
-                <Search handleSearch={this.handleSearchText} handleClickButton={this._searchFilms}/>
-                {this.state.searchText !== '' ? <ResultSearch textSearched={searchText}/> : null}
+                <Fade initValue={0} toValue={1} duration={1000} customStyles={{flex: 1}}>
+                    <Search handleSearch={this.handleSearchText} handleClickButton={this._searchFilms}/>
+                    {this.state.searchText !== '' ? <ResultSearch textSearched={searchText}/> : null}
                     {this._renderResult()}
-                { this.state.isLoading ?
-                    <View style={styles.loading_container}>
-                        <ActivityIndicator size='large' color={'#000'} />
-                    </View>
-                    : null
-                }
-
+                    { this.state.isLoading ?
+                        <View style={styles.loading_container}>
+                            <ActivityIndicator size='large' color={'#000'} />
+                        </View>
+                        : null
+                    }
+                </Fade>
             </SafeAreaView>
         )
     }
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
     result_container: {
         flex: 1,
         justifyContent: 'center',
-        // alignItems: 'center'
+        alignItems: 'center'
     },
     text_no_result: {
         fontSize: 20,
